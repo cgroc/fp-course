@@ -316,8 +316,7 @@ lengthGT4 l =
 reverse ::
   List a
   -> List a
-reverse Nil = Nil
-reverse (h :. t) = _todo
+reverse l = foldLeft (\xs -> \x -> x :. xs) Nil l
 
 -- | Produce an infinite `List` that seeds with the given value at its head,
 -- then runs the given function for subsequent elements
