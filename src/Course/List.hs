@@ -16,7 +16,7 @@ module Course.List where
 import qualified Control.Applicative as A
 import qualified Control.Monad as M
 import Course.Core
-import Course.Optional
+import Course.Optional as O
 import qualified System.Environment as E
 import qualified Prelude as P
 import qualified Numeric as N
@@ -75,8 +75,14 @@ headOr ::
   a
   -> List a
   -> a
-headOr a Nil = a
-headOr _ (a :. _) = a
+--headOr a Nil = a
+--headOr _ (a :. _) = a
+-- making use of optional to get at <+>, very possibly over complicated!
+--headOr a = (O.optional (\e -> e) a) . (foldRight (O.<+>) Empty) . map (O.Full)
+
+-- okay this is screwing with my head... in the case where xs is Nil,
+-- where is the second argument to const coming from??
+headOr a xs = foldRight const a xs
 
 -- | The product of the elements of a list.
 --
