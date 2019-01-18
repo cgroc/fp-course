@@ -140,8 +140,9 @@ map ::
   (a -> b)
   -> List a
   -> List b
-map _ Nil = Nil
-map f (h :. t) = f h :. map f t
+--map _ Nil = Nil
+--map f (h :. t) = f h :. map f t
+map f = foldRight (\a bx -> f a :. bx) Nil
 
 -- | Return elements satisfying the given predicate.
 --
@@ -157,8 +158,9 @@ filter ::
   (a -> Bool)
   -> List a
   -> List a
-filter _ Nil = Nil
-filter p (h :. t) = if p h then h :. filter p t else filter p t
+--filter _ Nil = Nil
+--filter p (h :. t) = if p h then h :. filter p t else filter p t
+filter p = foldRight (\a bx -> if p a then a :. bx else bx) Nil
 
 -- | Append two lists to a new list.
 --
@@ -176,9 +178,11 @@ filter p (h :. t) = if p h then h :. filter p t else filter p t
   List a
   -> List a
   -> List a
-l ++ Nil = l -- I think this isn't strictly necessary, optimisation
-Nil ++ l = l
-(h :. t) ++ l = h :. (t ++ l)
+--l ++ Nil = l -- I think this isn't strictly necessary, optimisation
+--Nil ++ l = l
+--(h :. t) ++ l = h :. (t ++ l)
+(++) = flip (foldRight (\a ax -> a :. ax))
+
 
 infixr 5 ++
 
