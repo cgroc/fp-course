@@ -142,7 +142,9 @@ map ::
   -> List b
 --map _ Nil = Nil
 --map f (h :. t) = f h :. map f t
-map f = foldRight (\a bx -> f a :. bx) Nil
+--map f = foldRight (\a bx -> f a :. bx) Nil
+map f = foldRight ((:.) . f) Nil
+
 
 -- | Return elements satisfying the given predicate.
 --
