@@ -48,13 +48,13 @@ instance Applicative ExactlyOne where
     a
     -> ExactlyOne a
   pure =
-    error "todo: Course.Applicative pure#instance ExactlyOne"
+    ExactlyOne
   (<*>) ::
     ExactlyOne (a -> b)
     -> ExactlyOne a
     -> ExactlyOne b
-  (<*>) =
-    error "todo: Course.Applicative (<*>)#instance ExactlyOne"
+  (<*>) (ExactlyOne f) =
+    (<$>) f
 
 -- | Insert into a List.
 --
@@ -67,13 +67,17 @@ instance Applicative List where
     a
     -> List a
   pure =
-    error "todo: Course.Applicative pure#instance List"
+    -- a :. Nil
+    -- (:.) a Nil
+    flip (:.) Nil -- is this really any clearer?
   (<*>) ::
     List (a -> b)
     -> List a
     -> List b
-  (<*>) =
-    error "todo: Course.Apply (<*>)#instance List"
+  --(<*>) Nil _ = Nil
+  --(<*>) (fh :. ft) l = (fh <$> l) ++ ((<*>) ft l)
+  --(<*>) fx ax = foldRight (\f -> \g -> (f <$> ax) ++ (g <$> ax)) Nil
+  (<*>) fx ax = foldRight (\f l -> (f <$> ax) ++ l) Nil fx
 
 -- | Insert into an Optional.
 --
